@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Activator : MonoBehaviour {
 
@@ -9,6 +10,9 @@ public class Activator : MonoBehaviour {
 	bool active = false;
 	GameObject note;
 	Color old;
+	KeyCode[] player1 = { KeyCode.A, KeyCode.S, KeyCode.D };
+	KeyCode[] player2 = { KeyCode.LeftArrow, KeyCode.UpArrow, KeyCode.RightArrow };
+
 
 	public bool createMode;
 	public GameObject n;
@@ -20,6 +24,8 @@ public class Activator : MonoBehaviour {
 
 	void Start() {
 		old = sr.color;
+		PlayerPrefs.SetInt ("Score1", 0);
+		PlayerPrefs.SetInt ("Score2", 0);
 	}
 
 	// Update is called once per frame
@@ -34,7 +40,11 @@ public class Activator : MonoBehaviour {
 			}
 			if (Input.GetKeyDown (key) && active) {
 				Destroy (note);
-				AddScore ();
+				if (player1.Contains (key)) {
+					AddScore ("Score1");
+				} else if (player2.Contains (key)) {
+					AddScore ("Score2");
+				}
 				active = false;
 			}
 		}
@@ -56,8 +66,8 @@ public class Activator : MonoBehaviour {
 		active = false;
 	}
 
-	void AddScore() {
-		PlayerPrefs.SetInt ("Score", PlayerPrefs.GetInt ("Score") + 100);
+	void AddScore(string player) {
+		PlayerPrefs.SetInt (player, PlayerPrefs.GetInt (player) + 100);
 	}
 
 	IEnumerator Pressed () {
