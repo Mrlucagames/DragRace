@@ -7,9 +7,12 @@ public class PlayerController : MonoBehaviour {
    public GameObject[] mounthPieces;
    public GameObject eyesOpen;
    public  GameObject eyesClosed;
-    public float singSpeed;
+   public float singSpeed;
+   public Animator ani;
+
 	// Use this for initialization
 	void Start () {
+        ani = GetComponent<Animator>();
         StartCoroutine(Blink());
         StartCoroutine(Sing());
     }
